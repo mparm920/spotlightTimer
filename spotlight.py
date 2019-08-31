@@ -3,7 +3,7 @@ import requests
 import configparser
 from datetime import datetime
 
-class SpotLightTimer
+class SpotLightTimer:
 
     def __init__():
         config = configparser.ConfigParser()
