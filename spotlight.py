@@ -1,6 +1,7 @@
 import json
 import requests
 import configparser
+import logging
 from datetime import datetime
 
 class SpotLightTimer:
@@ -17,12 +18,13 @@ class SpotLightTimer:
         if res.status_code == 200:
             sunrise = json.loads(res.content.decode('utf8'))['sys']['sunrise']
             sunset = json.loads(res.content.decode('utf-8'))['sys']['sunset']
-            print('sunrise: {0}'.format(datetime.utcfromtimestamp(sunrise)))
-            print('sunset {0}'.format(datetime.utcfromtimestamp(sunset)))
+            logging.debug('sunrise: {0}'.format(datetime.utcfromtimestamp(sunrise)))
+            logging.debug('sunset {0}'.format(datetime.utcfromtimestamp(sunset)))
             #print(json.loads(res.content.decode('utf-8')))
         else:
             print(res.status_code)
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG, format="%(levelname)s: %(asctime)s %(message)s")
     light = SpotLightTimer()
     light.requestTime()
