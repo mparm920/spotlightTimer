@@ -3,8 +3,14 @@ import requests
 import configparser
 import logging
 from datetime import datetime
+from models import models
 
 class SpotLightTimer:
+
+    def logTimes(self, checkTime, sunrise, sunset):
+        t = models.Timer(checkTime, sunrise, sunset)
+        models.session.add(t)
+        models.session.commit()
 
     def __init__(self):
         config = configparser.ConfigParser()
@@ -18,9 +24,10 @@ class SpotLightTimer:
         if res.status_code == 200:
             sunrise = json.loads(res.content.decode('utf8'))['sys']['sunrise']
             sunset = json.loads(res.content.decode('utf-8'))['sys']['sunset']
+            checkTime = datetime.now()
+            self.logTimes(checkTime, sunrise, sunset)
             logging.debug('sunrise: {0}'.format(datetime.utcfromtimestamp(sunrise)))
             logging.debug('sunset {0}'.format(datetime.utcfromtimestamp(sunset)))
-            #print(json.loads(res.content.decode('utf-8')))
         else:
             print(res.status_code)
 
