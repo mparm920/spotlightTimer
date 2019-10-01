@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, String, Integer, DateTime
+from sqlalchemy import create_engine, Column, String, Integer, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import uuid
@@ -11,17 +11,12 @@ class Config(Base):
 
     __tablename__ = 'config'
 
-    id = Column(String, primary_key=True, default=str(uuid.uuid4()))
+    id = Column(Integer, primary_key=True, default=1)
     offDelay = Column(Integer, nullable=False, default=0)
     onAdvance = Column(Integer, nullable=False, default=0)
-    url = Column(String, nullable=False)
-    apiKey = Column(String, nullable=False)
-
-    def __init__(self, offDelay, onAdvance, url, apiKey):
-        self.offDelay = offDelay
-        self.onAdvance = onAdvance
-        self.url = url
-        self.apiKey = apiKey
+    baseUrl = Column(String, nullable=False, default="http://api.openweathermap.org/data/2.5/")
+    url = Column(String, nullable=False, default="weather?zip=48462,us")
+    onOff = Column(Boolean, nullable=False, default=False)
 
     def __repr__(self):
         return f'Config(offDelay:{self.offDelay}, onAdvance:{self.onAdvance}, url:{self.url}, apiKey:{self.apiKey})'
