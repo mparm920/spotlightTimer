@@ -1,7 +1,7 @@
 import json
 import requests
 import configparser
-import log
+import .logging
 from datetime import datetime
 from models import models
 
@@ -25,8 +25,8 @@ class SpotLightTimer:
             sunsetUnix = json.loads(res.content.decode('utf-8'))['sys']['sunset']
             sunrise = datetime.utcfromtimestamp(sunriseUnix)
             sunset = datetime.utcfromtimestamp(sunsetUnix)
-            log.debug('sunrise: {0}'.format(sunrise))
-            log.debug('sunset {0}'.format(sunset))
+            logging.debug('sunrise: {0}'.format(sunrise))
+            logging.debug('sunset {0}'.format(sunset))
             return (sunriseUnix, sunsetUnix)
         else:
             print(res.status_code)
